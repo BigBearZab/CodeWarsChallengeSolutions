@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	"strings"
 )
 
 func main() {
-	i := "1234"
-	fmt.Println(Revrot(i, 3))
+	i := "733049910872815764"
+	fmt.Println(Revrot(i, 5))
 }
 
 func Revrot(s string, n int) string {
@@ -24,14 +24,36 @@ func Revrot(s string, n int) string {
 		fmt.Println(s)
 	}
 	// run chunk transforms
-	for _, v := range sl {
-		temp_n, _ := strconv.ParseInt(v, 0, 0)
-		fmt.Println(temp_n)
-
+	for i, v := range sl {
+		sl[i] = ChunkTransform(v)
 	}
-	return ""
+	return strings.Join(sl, "")
 }
 
-// func Rot (s string) string {
+func Rot(s string) string {
+	s = s[1:] + string(s[0])
+	return s
+}
 
-// }
+func Rev(s string) string {
+	var o string
+	for _, v := range s {
+		o = string(v) + o
+	}
+	return o
+}
+
+func ChunkTransform(s string) string {
+	rt := 0
+	for _, v := range s {
+		n := int(v)
+		rt += (n * n * n)
+		fmt.Println(rt)
+	}
+	if rt%2 == 0 && rt > 0 {
+		fmt.Println("Reversing chunk to", Rev(s))
+		return Rev(s)
+	}
+	fmt.Println("Rotating chunk to", Rot(s))
+	return Rot(s)
+}
